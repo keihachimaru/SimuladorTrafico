@@ -5,7 +5,7 @@ import java.util.List;
 public class MostCrowdedStrategy implements LightSwitchingStrategy {
 	protected int timeSlot;
 	
-MostCrowdedStrategy(int timeSlot) {
+public MostCrowdedStrategy(int timeSlot) {
 		if(timeSlot<0) throw new IllegalArgumentException("the timeSlot must be a positive number.");
 		this.timeSlot = timeSlot;
 	}

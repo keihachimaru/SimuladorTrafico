@@ -5,7 +5,7 @@ import java.util.List;
 public class RoundRobinStrategy implements LightSwitchingStrategy {
 	protected int timeSlot;
 	
-	RoundRobinStrategy(int timeSlot) {
+	public RoundRobinStrategy(int timeSlot) {
 		if(timeSlot<0) throw new IllegalArgumentException("the timeSlot must be a positive number.");
 		this.timeSlot = timeSlot;
 	}
