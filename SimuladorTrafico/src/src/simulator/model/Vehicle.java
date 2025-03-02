@@ -35,6 +35,7 @@ public class Vehicle extends SimulatedObject {
 		this.itinerary = Collections.unmodifiableList(new ArrayList<>(itinerary));;
 		
 		this.state = VehicleStatus.PENDING;
+		this.iter = 0;
 	}
 	
 	void setSpeed(int s) {
