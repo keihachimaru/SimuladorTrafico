@@ -22,9 +22,12 @@ public abstract class Event implements Comparable<Event> {
 
   @Override
   public int compareTo(Event o) {
-    // TODO complete the method to compare events according to their _time, and when
-// _time is equal it compares the _time_stamp;
-	  return 0;
+	  if(o._time==this._time) {
+		  return (int) (this._time_stamp-o._time_stamp); 
+	  }
+	  else {
+		  return this._time-o._time;
+	  }
   }
 
   abstract void execute(RoadMap map) throws Exception;
