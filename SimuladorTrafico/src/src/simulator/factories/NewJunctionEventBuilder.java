@@ -12,8 +12,9 @@ public class NewJunctionEventBuilder extends Builder<Event> {
 	Factory<LightSwitchingStrategy> lssFactory;
 	Factory<DequeuingStrategy> dqsFactory;
 	
-	public NewJunctionEventBuilder(String typeTag, String desc, Factory<LightSwitchingStrategy> lssFactory, Factory<DequeuingStrategy> dqsFactory) {
-		super(typeTag, desc);
+	public NewJunctionEventBuilder(Factory<LightSwitchingStrategy> lssFactory,
+			Factory<DequeuingStrategy> dqsFactory) {
+		super("new_junction", "new_junction");
 		this.lssFactory = lssFactory;
 		this.dqsFactory = dqsFactory;
 	}

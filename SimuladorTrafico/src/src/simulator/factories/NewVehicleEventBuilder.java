@@ -10,10 +10,8 @@ import src.simulator.model.Event;
 import src.simulator.model.NewVehicleEvent;
 
 public class NewVehicleEventBuilder extends Builder<Event> {
-
-	public NewVehicleEventBuilder(String typeTag, String desc) {
-		super(typeTag, desc);
-		// TODO Auto-generated constructor stub
+	public NewVehicleEventBuilder() {
+		super("new_vehicle", "new_vehicle");
 	}
 
 	@Override

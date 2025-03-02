@@ -7,10 +7,8 @@ import src.simulator.model.NewInterCityRoadEvent;
 import src.simulator.model.Weather;
 
 public class NewInterCityRoadEventBuilder extends Builder<Event> {
-
-	public NewInterCityRoadEventBuilder(String typeTag, String desc) {
-		super(typeTag, desc);
-		// TODO Auto-generated constructor stub
+	public NewInterCityRoadEventBuilder() {
+		super("new_inter_city_road", "new_inter_city_road");
 	}
 
 	@Override

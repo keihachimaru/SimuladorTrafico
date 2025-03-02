@@ -6,10 +6,8 @@ import src.simulator.model.LightSwitchingStrategy;
 import src.simulator.model.RoundRobinStrategy;
 
 public class RoundRobinStrategyBuilder extends Builder<LightSwitchingStrategy> {
-
-	public RoundRobinStrategyBuilder(String typeTag, String desc) {
-		super(typeTag, desc);
-		// TODO Auto-generated constructor stub
+	public RoundRobinStrategyBuilder() {
+		super("round_robin_lss","round_robin_lss");
 	}
 
 	@Override

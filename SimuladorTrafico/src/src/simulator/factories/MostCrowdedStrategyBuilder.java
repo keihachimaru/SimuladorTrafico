@@ -6,10 +6,8 @@ import src.simulator.model.LightSwitchingStrategy;
 import src.simulator.model.MostCrowdedStrategy ;
 
 public class MostCrowdedStrategyBuilder  extends Builder<LightSwitchingStrategy> {
-
-	public MostCrowdedStrategyBuilder(String typeTag, String desc) {
-		super(typeTag, desc);
-		// TODO Auto-generated constructor stub
+	public MostCrowdedStrategyBuilder() {
+		super("most_crowded_lss", "most_crowded_lss");
 	}
 
 	@Override

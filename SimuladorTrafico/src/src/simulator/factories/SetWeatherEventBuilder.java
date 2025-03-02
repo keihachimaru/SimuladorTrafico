@@ -12,10 +12,8 @@ import src.simulator.model.SetWeatherEvent;
 import src.simulator.model.Weather;
 
 public class SetWeatherEventBuilder extends Builder<Event> {
-
-	public SetWeatherEventBuilder(String typeTag, String desc) {
-		super(typeTag, desc);
-		// TODO Auto-generated constructor stub
+	public SetWeatherEventBuilder() {
+		super("set_weather", "set_weather");
 	}
 
 	@Override
