@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * 
+ */
+module SimuladorTrafico {
+	requires json;
+}
