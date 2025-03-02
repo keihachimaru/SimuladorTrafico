@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.json.JSONObject;
+
 public class Vehicle extends SimulatedObject {
 	private List<Junction> itinerary;
 	private int maxSpeed;
@@ -98,6 +100,10 @@ public class Vehicle extends SimulatedObject {
 		return this.maxSpeed;
 	}
 	
+	public int getContClass() {
+		return this.contClass;
+	}
+	
 	public VehicleStatus getStatus() {
 		return this.state;
 	}
@@ -117,13 +123,13 @@ public class Vehicle extends SimulatedObject {
 	@Override
 	public JSONObject report() {
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("id", this.id);
+		jsonObj.put("id", this.toString());
 		jsonObj.put("speed", this.currSpeed);
 		jsonObj.put("distance", this.totalDist);
 		jsonObj.put("co2", this.totalCont);
 		jsonObj.put("class", this.contClass);
-		jsonObj.put("status", this.state));
-		jsonObj.put("road", this.road.id);
+		jsonObj.put("status", this.state);
+		jsonObj.put("road", this.road.toString());
 		jsonObj.put("location", this.location);
 		
 		return jsonObj;
