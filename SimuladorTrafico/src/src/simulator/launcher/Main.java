@@ -1,6 +1,10 @@
 package src.simulator.launcher;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +16,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import src.simulator.control.Controller;
 import src.simulator.factories.*;
 import src.simulator.model.*;
 
@@ -19,6 +24,7 @@ public class Main {
 
 	private static String _inFile = null;
 	private static String _outFile = null;
+	private static int _ticks = 10;
 	private static Factory<Event> _eventsFactory = null;
 
 	private static void parseArgs(String[] args) {
@@ -35,6 +41,7 @@ public class Main {
 			parseHelpOption(line, cmdLineOptions);
 			parseInFileOption(line);
 			parseOutFileOption(line);
+			parseTicksOption(line);
 
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
@@ -61,6 +68,7 @@ public class Main {
 		cmdLineOptions.addOption(
 				Option.builder("o").longOpt("output").hasArg().desc("Output file, where reports are written.").build());
 		cmdLineOptions.addOption(Option.builder("h").longOpt("help").desc("Print this message").build());
+		cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg().desc("Ticks to the simulator's main loop (default value is 10).").build());
 
 		return cmdLineOptions;
 	}
@@ -82,6 +90,13 @@ public class Main {
 
 	private static void parseOutFileOption(CommandLine line) throws ParseException {
 		_outFile = line.getOptionValue("o");
+	}
+	
+	private static void parseTicksOption(CommandLine line) throws ParseException {
+		_ticks = Integer.parseInt(line.getOptionValue("t"));
+		if (_ticks <= 0) {
+			throw new ParseException("Number of ticks must be a positive integer.");
+		}
 	}
 
 
@@ -105,9 +120,26 @@ public class Main {
 		ebs.add(new SetWeatherEventBuilder());
 		ebs.add(new SetContClassEventBuilder());
 		Factory<Event> eventsFactory = new BuilderBasedFactory<>(ebs);
+		
+		_eventsFactory = eventsFactory;
 	}
 
 	private static void startBatchMode() throws IOException {
+	    InputStream in = new FileInputStream(_inFile);
+	    OutputStream out = new FileOutputStream(_outFile);
+	    
+	    TrafficSimulator simulator = new TrafficSimulator();
+	    Factory<Event> eventsFactory = _eventsFactory;
+	    
+	    Controller controller = new Controller(simulator, eventsFactory);
+	    try {
+			controller.run(_ticks, out);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	    
+	    in.close();
+	    out.close();
 	}
 
 	private static void start(String[] args) throws IOException {

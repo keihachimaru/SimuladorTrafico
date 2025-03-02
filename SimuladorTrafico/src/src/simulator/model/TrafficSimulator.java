@@ -10,7 +10,7 @@ public class TrafficSimulator {
 	Queue<Event> events;
 	int time;
 	
-	TrafficSimulator() {
+	public TrafficSimulator() {
 		this.time = 0;
 		this.roadmap = new RoadMap();
 		this.events = new PriorityQueue<Event>();
