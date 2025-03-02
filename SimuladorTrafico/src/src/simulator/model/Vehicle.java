@@ -48,7 +48,7 @@ public class Vehicle extends SimulatedObject {
 	}
 	
 	@Override
-	void advance(int currTime) {
+	void advance(int currTime) throws Exception {
 		if(this.state==VehicleStatus.TRAVELING) {
 			int org = this.location;
 			//Calculate new Vehicle location
@@ -69,7 +69,8 @@ public class Vehicle extends SimulatedObject {
 			if(this.location>=roadLen) {
 				this.state = VehicleStatus.WAITING;
 				this.setSpeed(0);
-				/// Junction queue add Vehicle
+				Junction currJunc =  this.itinerary.get(this.iter); 
+				currJunc.enter(this);
 			}
 		}
 	}
@@ -79,7 +80,14 @@ public class Vehicle extends SimulatedObject {
 		Road nextRoad;
 		
 		if(this.state == VehicleStatus.PENDING || this.state == VehicleStatus.WAITING) {
-			/// nextRoad = this.itinerary[this.iter].getNext();
+			Junction currJunc =  this.itinerary.get(this.iter);
+			this.iter ++;
+			Junction nextJunc =  this.itinerary.get(this.iter); 
+			nextRoad = currJunc.roadTo(nextJunc);
+			
+			this.road = nextRoad;
+			nextRoad.enter(this);
+			this.location = 0;
 			this.state = VehicleStatus.TRAVELING;
 		}
 		else {

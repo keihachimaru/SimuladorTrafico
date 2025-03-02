@@ -68,7 +68,7 @@ public abstract class Road extends SimulatedObject {
 	
 	
 	@Override
-	void advance(int currTime) {
+	void advance(int currTime) throws Exception {
 		this.reduceTotalContamination();
 		this.updateSpeedLimit();
 		for(Vehicle v : this.vehicles) {
