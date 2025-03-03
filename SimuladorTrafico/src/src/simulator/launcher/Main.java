@@ -124,25 +124,19 @@ public class Main {
 		_eventsFactory = eventsFactory;
 	}
 
-	private static void startBatchMode() throws IOException {
+	private static void startBatchMode() throws Exception {
 	    InputStream in = new FileInputStream(_inFile);
 	    OutputStream out = new FileOutputStream(_outFile);
 	    
 	    TrafficSimulator simulator = new TrafficSimulator();
-	    Factory<Event> eventsFactory = _eventsFactory;
+		
 	    
-	    Controller controller = new Controller(simulator, eventsFactory);
-	    try {
-			controller.run(_ticks, out);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	    
-	    in.close();
-	    out.close();
+	    Controller controller = new Controller(simulator, _eventsFactory);
+		controller.loadEvents(in);
+	    controller.run(_ticks, out);
 	}
 
-	private static void start(String[] args) throws IOException {
+	private static void start(String[] args) throws Exception {
 		initFactories();
 		parseArgs(args);
 		startBatchMode();

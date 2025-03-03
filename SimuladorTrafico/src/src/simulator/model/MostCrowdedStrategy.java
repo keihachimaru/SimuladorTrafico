@@ -41,4 +41,8 @@ public MostCrowdedStrategy(int timeSlot) {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "mostcrowded";
+	}
 }

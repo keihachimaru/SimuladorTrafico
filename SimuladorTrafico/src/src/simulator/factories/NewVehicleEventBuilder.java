@@ -18,7 +18,7 @@ public class NewVehicleEventBuilder extends Builder<Event> {
 	protected Event create_instance(JSONObject data) {
 		int time = data.getInt("time");
 		String id = data.getString("id");
-		int maxSpeed = data.getInt("maxSpeed");
+		int maxSpeed = data.getInt("maxspeed");
 		int contClass = data.getInt("class");
 		JSONArray itineraryJSON = data.getJSONArray("itinerary");
 		List<String> itinerary = new ArrayList<>();

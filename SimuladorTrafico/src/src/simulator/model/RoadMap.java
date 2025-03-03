@@ -39,6 +39,9 @@ public class RoadMap {
 		if(!roadMap.containsKey(r.toString())) {
 			roadList.add(r);
 			roadMap.put(r.toString(), r);
+
+			this.juncMap.get(r.getDest().toString()).addIncommingRoad(r);
+			this.juncMap.get(r.getSrc().toString()).addOutGoingRoad(r);
 		}
 		else {
 			throw new Exception("Road already added.");
@@ -108,7 +111,7 @@ public class RoadMap {
 		}
 		
 		jsonObject.put("junctions", juncReports);
-		jsonObject.put("road", roadReports);
+		jsonObject.put("roads", roadReports);
 		jsonObject.put("vehicles", vehicleReports);
 		
 		

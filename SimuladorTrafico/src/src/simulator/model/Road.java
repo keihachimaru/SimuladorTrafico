@@ -39,11 +39,15 @@ public abstract class Road extends SimulatedObject {
 		
 		if(weather==null) throw new IllegalArgumentException("the weather cant be null.");
 		this.weather = weather;
+
+		this.vehicles = new ArrayList<>();
+		this.currSpeedLim = maxSpeed;
 	}
 	
 	void enter(Vehicle v) throws Exception {
 		if(v.getLocation()!=0 || v.getSpeed()!=0) {
-			throw new Exception("the Location and Speed must be 0.");
+			System.out.println(this);
+			throw new Exception("the Location and Speed must be 0."+v.report().toString());
 		}
 		this.vehicles.add(v);
 	}
@@ -126,7 +130,7 @@ public abstract class Road extends SimulatedObject {
 	public JSONObject report() {
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("id", this.toString());
-		jsonObj.put("speedLimit", this.currSpeedLim);
+		jsonObj.put("speedlimit", this.currSpeedLim);
 		jsonObj.put("weather", this.weather);
 		jsonObj.put("co2", this.totalCont);
 		

@@ -1,5 +1,6 @@
 package src.simulator.control;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -23,7 +24,7 @@ public class Controller {
 		this.eventsFactory = eventsFactory;
 	}
 	
-	public void  loadEvents(InputStream in) {
+	public void  loadEvents(InputStream in) throws IOException {
 		JSONObject jo = new JSONObject(new JSONTokener(in));
 		JSONArray events = jo.getJSONArray("events");
 		if(events==null) throw new IllegalArgumentException("invalid JSON.");
@@ -31,8 +32,10 @@ public class Controller {
 		for(int i=0; i<events.length(); i++) {
 			JSONObject o = events.getJSONObject(i);
 			Event event = eventsFactory.create_instance(o);
-			simulator.addEvent(event);
+			if (event != null) simulator.addEvent(event);
 		}
+
+		in.close();
 	}
 	
 	public void run(int n, OutputStream  out) throws Exception {
@@ -47,9 +50,10 @@ public class Controller {
 		
 		JSONObject output = new JSONObject();
 		output.put("states", states);
-		String str = output.toString(3);
-		
+		String str = output.toString(1);
+
 		p.print(str);
+		out.close();
 	}
 	
 	public void reset() {

@@ -41,6 +41,9 @@ public class Vehicle extends SimulatedObject {
 	void setSpeed(int s) {
 		if(s<0) throw  new IllegalArgumentException("the speed 's' must be a positive number.");
 		this.currSpeed = s>this.maxSpeed?this.maxSpeed:s;
+		if(VehicleStatus.WAITING==this.state) {
+			this.currSpeed = 0;
+		}
 	}
 	
 	void setContaminationClass(int c) {
@@ -70,8 +73,13 @@ public class Vehicle extends SimulatedObject {
 			if(this.location>=roadLen) {
 				this.state = VehicleStatus.WAITING;
 				this.setSpeed(0);
-				Junction currJunc =  this.itinerary.get(this.iter); 
-				currJunc.enter(this);
+				if(this.iter<this.itinerary.size()) {
+					Junction currJunc =  this.itinerary.get(this.iter); 
+					currJunc.enter(this);
+				}
+				else {
+					this.state = VehicleStatus.ARRIVED;
+				}
 			}
 		}
 	}
@@ -80,16 +88,22 @@ public class Vehicle extends SimulatedObject {
 		if(this.road!=null) this.road.exit(this);
 		Road nextRoad;
 		
-		if(this.state == VehicleStatus.PENDING || this.state == VehicleStatus.WAITING) {
-			Junction currJunc =  this.itinerary.get(this.iter);
-			this.iter ++;
-			Junction nextJunc =  this.itinerary.get(this.iter); 
-			nextRoad = currJunc.roadTo(nextJunc);
-			
-			this.road = nextRoad;
-			nextRoad.enter(this);
-			this.location = 0;
-			this.state = VehicleStatus.TRAVELING;
+		if((this.state == VehicleStatus.PENDING || this.state == VehicleStatus.WAITING)) {
+			if(this.iter+1<this.itinerary.size()) {
+				Junction currJunc =  this.itinerary.get(this.iter);
+				this.iter ++;
+				Junction nextJunc =  this.itinerary.get(this.iter);
+				nextRoad = currJunc.roadTo(nextJunc);
+				
+				this.road = nextRoad;
+				this.location = 0;
+				this.setSpeed(0);
+				nextRoad.enter(this);
+				this.state = VehicleStatus.TRAVELING;
+			}
+			else {
+				this.state = VehicleStatus.ARRIVED;
+			}
 		}
 		else {
 			throw new Exception("Vehicle has to be WAITING or PENDING.");
@@ -138,8 +152,8 @@ public class Vehicle extends SimulatedObject {
 		jsonObj.put("co2", this.totalCont);
 		jsonObj.put("class", this.contClass);
 		jsonObj.put("status", this.state);
-		jsonObj.put("road", this.road.toString());
-		jsonObj.put("location", this.location);
+		if(VehicleStatus.ARRIVED!=this.getStatus()) jsonObj.put("road", this.road.toString());
+		if(VehicleStatus.ARRIVED!=this.getStatus()) jsonObj.put("location", this.location);
 		
 		return jsonObj;
 	}

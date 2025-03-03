@@ -1,6 +1,8 @@
 package src.simulator.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,11 +35,16 @@ public class Junction extends SimulatedObject {
 		
 		if(yCoord<0) throw new IllegalArgumentException("the yCoord cant be negative.");
 		this.yCoord = yCoord;
+
+		incommingRoads = new ArrayList<>();
+		queueList = new ArrayList<>();
+		outgoingRoads = new HashMap<>();
+		roadQueues = new HashMap<>();
+		lastSwitchingTime = 1;
 	}
 	
 	void addIncommingRoad(Road r) throws Exception {
 		if(r.getDest()!=this) throw new Exception("the road does not lead to this Junction.");
-		
 		this.incommingRoads.add(r);
 		List<Vehicle> newQueue = new ArrayList<>();
 		this.queueList.add(newQueue);
@@ -55,7 +62,6 @@ public class Junction extends SimulatedObject {
 	void enter(Vehicle v) throws Exception {
 		int i = this.incommingRoads.indexOf(v.getRoad());
 		this.queueList.get(i).add(v);
-		
 		this.roadQueues.get(v.getRoad()).add(v);
 	}
 	
@@ -65,16 +71,18 @@ public class Junction extends SimulatedObject {
 	
 	@Override
 	void advance(int currTime) throws Exception {
-		Road key = this.incommingRoads.get(currGreen);
-		List<Vehicle> dq = this.roadQueues.get(key);
-		dq = this.dqStrategy.dequeue(dq);
-		
-		for(Vehicle v : dq) {
-			this.roadQueues.get(key).remove(v);
-			this.queueList.get(currGreen).remove(v);
-			v.moveToNextRoad();
+		if(this.incommingRoads.size()!=0) {
+			Road key = this.incommingRoads.get(currGreen);
+			List<Vehicle> dq = this.roadQueues.get(key);
+			dq = this.dqStrategy.dequeue(dq);
+			
+			for(Vehicle v : dq) {
+				this.roadQueues.get(key).remove(v);
+				this.queueList.get(currGreen).remove(v);
+				v.moveToNextRoad();
+			}
 		}
-		
+			
 		int newLight = this.lsStrategy.chooseNextGreen(incommingRoads, queueList, currGreen, lastSwitchingTime, currTime);
 		if(newLight!=currGreen) {
 			this.currGreen = newLight;
@@ -90,7 +98,7 @@ public class Junction extends SimulatedObject {
 			jsonObj.put("road", key.toString());
 			List<String> vehicles = new ArrayList<>();
 			for(Vehicle v : this.roadQueues.get(key)) {
-				vehicles.add(v.toString());
+				if(!vehicles.contains(v.toString())) vehicles.add(v.toString());
 			}
 			jsonObj.put("vehicles", vehicles);
 			queues.add(jsonObj);
@@ -98,8 +106,8 @@ public class Junction extends SimulatedObject {
 		
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("id", this.toString());
-		jsonObj.put("green", this.incommingRoads.get(this.currGreen)).toString();
-		jsonObj.put("queues", queues);
+		jsonObj.put("green", this.incommingRoads.size()>0?this.incommingRoads.get(this.currGreen).toString():"none");
+		jsonObj.put("queues", queues.reversed());
 		
 		return jsonObj;
 	}
