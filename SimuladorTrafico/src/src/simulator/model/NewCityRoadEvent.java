@@ -7,7 +7,7 @@ public class NewCityRoadEvent extends NewRoadEvent {
 	}
 
 	@Override
-	void execute(RoadMap map) throws Exception {
+	public void execute(RoadMap map) throws Exception {
 		Junction srcJuncObj = map.getJunction(srcJunc);
 		Junction destJuncObj = map.getJunction(destJunc);
 		

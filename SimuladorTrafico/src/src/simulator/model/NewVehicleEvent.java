@@ -20,7 +20,7 @@ public class NewVehicleEvent extends Event {
 	}
 
 	@Override
-	void execute(RoadMap map) throws Exception {
+	public void execute(RoadMap map) throws Exception {
 		List<Junction> itineraryObjs = new ArrayList<>();
 		for(String s : this.itinerary) {
 			itineraryObjs.add(map.getJunction(s));

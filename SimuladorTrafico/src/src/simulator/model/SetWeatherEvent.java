@@ -15,7 +15,7 @@ public class SetWeatherEvent extends Event {
 	}
 
 	@Override
-	void execute(RoadMap map) throws Exception {
+	public void execute(RoadMap map) throws Exception {
 		for(Pair<String, Weather> p : ws) {
 			Road target = map.getRoad(p.getFirst());
 			if(target==null) throw new Exception("the road does not exist.");

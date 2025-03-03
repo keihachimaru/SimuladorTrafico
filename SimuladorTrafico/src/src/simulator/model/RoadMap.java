@@ -25,7 +25,7 @@ public class RoadMap {
         vehicleMap = new HashMap<>();
     }
 	
-	void addJunction(Junction j) throws Exception {
+	public void addJunction(Junction j) throws Exception {
 		if(!juncMap.containsKey(j.toString())) {
 			juncList.add(j);
 			juncMap.put(j.toString(), j);
@@ -35,26 +35,35 @@ public class RoadMap {
 		}
 	}
 	
-	void addRoad(Road r) throws Exception {
+	public void addRoad(Road r) throws Exception {
 		if(!roadMap.containsKey(r.toString())) {
 			roadList.add(r);
 			roadMap.put(r.toString(), r);
-
-			this.juncMap.get(r.getDest().toString()).addIncommingRoad(r);
-			this.juncMap.get(r.getSrc().toString()).addOutGoingRoad(r);
 		}
 		else {
 			throw new Exception("Road already added.");
 		}
 	}
 	
-	void addVehicle(Vehicle v) throws Exception {
-		if(!vehicleMap.containsKey(v.toString())) {
+	public void addVehicle(Vehicle v) throws Exception {
+		if(vehicleMap.containsKey(v.toString())) throw new Exception("Vehicle already added.");
+		
+		Boolean validItinerary = false;
+		Junction last = null;
+		for(Junction j : v.getItinerary()) {
+			if(last != null) {
+				validItinerary = last.roadTo(j)!=null;
+			}
+			last = j;
+
+		}
+		
+		if(validItinerary) {
 			vehicleList.add(v);
 			vehicleMap.put(v.toString(), v);
 		}
 		else {
-			throw new Exception("Road already added.");
+			throw new Exception("Invalid itinerary.");
 		}
 	}
 	

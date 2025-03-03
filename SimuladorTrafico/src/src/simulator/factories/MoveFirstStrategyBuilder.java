@@ -11,7 +11,7 @@ public class MoveFirstStrategyBuilder extends Builder<DequeuingStrategy> {
 	}
 
 	@Override
-	protected DequeuingStrategy create_instance(JSONObject data) {
+	public DequeuingStrategy create_instance(JSONObject data) {
 		// TODO Auto-generated method stub
 		MoveFirstStrategy strat = new MoveFirstStrategy();
 		return strat;

@@ -22,7 +22,7 @@ public class Junction extends SimulatedObject {
 	//Convenient attributes
 	private Map<Road, List<Vehicle>> roadQueues;
 	
-	Junction(String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoord, int yCoord) {
+	public Junction(String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoord, int yCoord) {
 		super(id);
 		if(lsStrategy==null) throw new IllegalArgumentException("the lsStrategy cant be null.");
 		this.lsStrategy = lsStrategy;
@@ -41,6 +41,7 @@ public class Junction extends SimulatedObject {
 		outgoingRoads = new HashMap<>();
 		roadQueues = new HashMap<>();
 		lastSwitchingTime = 1;
+		currGreen = -1;
 	}
 	
 	void addIncommingRoad(Road r) throws Exception {
@@ -65,13 +66,13 @@ public class Junction extends SimulatedObject {
 		this.roadQueues.get(v.getRoad()).add(v);
 	}
 	
-	Road roadTo(Junction j) {
+	public Road roadTo(Junction j) {
 		return this.outgoingRoads.get(j);
 	}
 	
 	@Override
 	void advance(int currTime) throws Exception {
-		if(this.incommingRoads.size()!=0) {
+		if(this.incommingRoads.size()!=0 && currGreen>=0) {
 			Road key = this.incommingRoads.get(currGreen);
 			List<Vehicle> dq = this.roadQueues.get(key);
 			dq = this.dqStrategy.dequeue(dq);
@@ -101,13 +102,13 @@ public class Junction extends SimulatedObject {
 				if(!vehicles.contains(v.toString())) vehicles.add(v.toString());
 			}
 			jsonObj.put("vehicles", vehicles);
-			queues.add(jsonObj);
+			queues.add(0, jsonObj);
 		}
 		
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("id", this.toString());
-		jsonObj.put("green", this.incommingRoads.size()>0?this.incommingRoads.get(this.currGreen).toString():"none");
-		jsonObj.put("queues", queues.reversed());
+		jsonObj.put("green", this.incommingRoads.size()>0 && this.currGreen>=0?this.incommingRoads.get(this.currGreen).toString():"none");
+		jsonObj.put("queues", queues);
 		
 		return jsonObj;
 	}

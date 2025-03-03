@@ -20,12 +20,12 @@ public class Vehicle extends SimulatedObject {
 	//Convenient attributes
 	private int iter;
 	
-	Vehicle(String id, int maxSpeed, int contClass, List<Junction> itinerary) {
+	public Vehicle(String id, int maxSpeed, int contClass, List<Junction> itinerary) {
 		super(id);
 		this.road = null;
 		this.location = 0;
 		
-		if(maxSpeed<0) throw  new IllegalArgumentException("the speed must be a positive number.");
+		if(maxSpeed<=0) throw  new IllegalArgumentException("the speed must be a positive number.");
 		this.maxSpeed = maxSpeed;
 		
 		if(contClass<0 || contClass>10) throw  new IllegalArgumentException("the contamination class must be in the interval [0, 10].");
@@ -38,15 +38,14 @@ public class Vehicle extends SimulatedObject {
 		this.iter = 0;
 	}
 	
-	void setSpeed(int s) {
+	public void setSpeed(int s) {
 		if(s<0) throw  new IllegalArgumentException("the speed 's' must be a positive number.");
-		this.currSpeed = s>this.maxSpeed?this.maxSpeed:s;
-		if(VehicleStatus.WAITING==this.state) {
-			this.currSpeed = 0;
+		if(VehicleStatus.TRAVELING==this.state) {
+			this.currSpeed = s>this.maxSpeed?this.maxSpeed:s;
 		}
 	}
 	
-	void setContaminationClass(int c) {
+	public void setContaminationClass(int c) {
 		if(c<0 || c>10) throw new IllegalArgumentException("the contamination class must be in the interval [0, 10].");
 		this.contClass = c;
 	}
@@ -71,8 +70,8 @@ public class Vehicle extends SimulatedObject {
 			
 			
 			if(this.location>=roadLen) {
-				this.state = VehicleStatus.WAITING;
 				this.setSpeed(0);
+				this.state = VehicleStatus.WAITING;
 				if(this.iter<this.itinerary.size()) {
 					Junction currJunc =  this.itinerary.get(this.iter); 
 					currJunc.enter(this);
@@ -84,7 +83,7 @@ public class Vehicle extends SimulatedObject {
 		}
 	}
 	
-	void moveToNextRoad() throws Exception {
+	public void moveToNextRoad() throws Exception {
 		if(this.road!=null) this.road.exit(this);
 		Road nextRoad;
 		
@@ -97,7 +96,7 @@ public class Vehicle extends SimulatedObject {
 				
 				this.road = nextRoad;
 				this.location = 0;
-				this.setSpeed(0);
+				this.currSpeed = 0;
 				nextRoad.enter(this);
 				this.state = VehicleStatus.TRAVELING;
 			}
@@ -151,9 +150,9 @@ public class Vehicle extends SimulatedObject {
 		jsonObj.put("distance", this.totalDist);
 		jsonObj.put("co2", this.totalCont);
 		jsonObj.put("class", this.contClass);
-		jsonObj.put("status", this.state);
-		if(VehicleStatus.ARRIVED!=this.getStatus()) jsonObj.put("road", this.road.toString());
-		if(VehicleStatus.ARRIVED!=this.getStatus()) jsonObj.put("location", this.location);
+		jsonObj.put("status", this.state.toString());
+		if(VehicleStatus.ARRIVED!=this.getStatus() && VehicleStatus.PENDING!=this.getStatus()) jsonObj.put("road", this.road.toString());
+		if(VehicleStatus.ARRIVED!=this.getStatus() && VehicleStatus.PENDING!=this.getStatus()) jsonObj.put("location", this.location);
 		
 		return jsonObj;
 	}

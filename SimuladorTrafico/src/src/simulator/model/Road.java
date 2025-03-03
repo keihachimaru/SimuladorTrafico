@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -56,7 +57,7 @@ public abstract class Road extends SimulatedObject {
 		this.vehicles.remove(v);
 	}
 	
-	void setWeather(Weather w) {
+	public void setWeather(Weather w) {
 		if(w==null) throw new IllegalArgumentException("the weather cant be null");
 		this.weather = w;
 	}
@@ -72,6 +73,7 @@ public abstract class Road extends SimulatedObject {
 	
 	
 	@Override
+	public
 	void advance(int currTime) throws Exception {
 		this.reduceTotalContamination();
 		this.updateSpeedLimit();
@@ -131,12 +133,12 @@ public abstract class Road extends SimulatedObject {
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("id", this.toString());
 		jsonObj.put("speedlimit", this.currSpeedLim);
-		jsonObj.put("weather", this.weather);
+		jsonObj.put("weather", this.weather.toString());
 		jsonObj.put("co2", this.totalCont);
 		
-		List<String> vehicleIDs = new ArrayList<>();
+		JSONArray vehicleIDs = new JSONArray();
 		for(Vehicle v : this.vehicles) {
-			vehicleIDs.add(v.toString());
+			vehicleIDs.put(v.toString());
 		}
 		jsonObj.put("vehicles", vehicleIDs);
 		

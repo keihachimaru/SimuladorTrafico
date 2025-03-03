@@ -89,7 +89,7 @@ public class TestExamples {
 	// examples directory "resources/examples"
 	//
 	public static void main(String[] args) throws JSONException, FileNotFoundException {
-		String path = args.length == 0 ? "SimuladorTrafico/resources/examples" : args[0];
+		String path = args.length == 0 ? "resources/examples" : args[0];
 
 		// change 'true' to 'false' to generate the expected output instead of testing
 		start(path, true);

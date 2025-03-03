@@ -17,7 +17,7 @@ public class NewJunctionEvent extends Event {
 	}
 
 	@Override
-	void execute(RoadMap map) throws Exception {
+	public void execute(RoadMap map) throws Exception {
 		Junction newJunction = new Junction(id, lsStrategy, dqStrategy, xCoord, xCoord);
 		map.addJunction(newJunction);
 	}

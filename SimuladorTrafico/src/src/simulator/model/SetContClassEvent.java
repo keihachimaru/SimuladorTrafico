@@ -15,7 +15,7 @@ public class SetContClassEvent extends Event {
 	}
 
 	@Override
-	void execute(RoadMap map) throws Exception {
+	public void execute(RoadMap map) throws Exception {
 		for(Pair<String, Integer> p : cs) {
 			Vehicle target = map.getVehicle(p.getFirst());
 			if(target==null) throw new Exception("the vehicle does not exist.");

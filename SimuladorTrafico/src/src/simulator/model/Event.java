@@ -30,5 +30,5 @@ public abstract class Event implements Comparable<Event> {
 	  }
   }
 
-  abstract void execute(RoadMap map) throws Exception;
+  public abstract void execute(RoadMap map) throws Exception;
 }

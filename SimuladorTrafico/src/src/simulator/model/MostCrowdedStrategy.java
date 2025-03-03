@@ -30,9 +30,9 @@ public MostCrowdedStrategy(int timeSlot) {
 		else {
 			List<Vehicle> longest = qs.get(0);
 			int index = 0;
-			for(int i=0; i<qs.size(); i++) {
-				int j = (i+(currGreen+1))%qs.size();
-				if(qs.get(j).size()>longest.size()) {
+			for(int i=0; i<qs.size()-1; i++) {
+				int j = (currGreen + 1 + i) % qs.size();
+				if(qs.get(j).size()>=longest.size()) {
 					longest = qs.get(j);
 					index = j;
 				}

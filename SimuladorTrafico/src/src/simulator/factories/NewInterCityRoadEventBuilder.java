@@ -12,7 +12,7 @@ public class NewInterCityRoadEventBuilder extends Builder<Event> {
 	}
 
 	@Override
-	protected Event create_instance(JSONObject data) {
+	public Event create_instance(JSONObject data) {
 		int time = data.getInt("time");
 		String id = data.getString("id");
 		String src = data.getString("src");
