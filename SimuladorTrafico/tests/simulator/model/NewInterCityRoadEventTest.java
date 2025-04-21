@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import src.simulator.model.*;
+import simulator.model.*;
 
 class NewInterCityRoadEventTest {
 

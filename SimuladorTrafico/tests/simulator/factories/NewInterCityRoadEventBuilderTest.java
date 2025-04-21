@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
-import src.simulator.model.*;
-import src.simulator.factories.*;
+import simulator.model.*;
+import simulator.factories.*;
 
 class NewInterCityRoadEventBuilderTest {
 

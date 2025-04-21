@@ -9,7 +9,7 @@ import java.util.Arrays;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
-import src.simulator.model.*;
+import simulator.model.*;
 
 class CityRoadTest {
 

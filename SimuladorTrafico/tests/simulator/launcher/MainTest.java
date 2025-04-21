@@ -13,7 +13,7 @@ class MainTest {
 	static private boolean run(String inFile, String outFile, String expOutFile, Integer ticks) {
 
 		try {
-			src.simulator.launcher.Main.main(new String[] { "-i", inFile, "-o", outFile, "-t", ticks.toString() });
+			simulator.launcher.Main.main(new String[] { "-i", inFile, "-o", outFile, "-t", ticks.toString() });
 
 			File currRunOutFile = new File(outFile);
 			File expectedOutFile = new File(expOutFile);
@@ -49,5 +49,11 @@ class MainTest {
 				150));
 
 	}
+	
+	@Test
+	void test_4() {
+		assertTrue(run("resources/examples/ex4.json", "resources/tmp/ex4.junit.out.json", "resources/examples/ex4.expout.json",
+				150));
 
+	}
 }

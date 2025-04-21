@@ -6,8 +6,8 @@ import java.util.Arrays;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
-import src.simulator.misc.Pair;
-import src.simulator.model.*;
+import simulator.misc.Pair;
+import simulator.model.*;
 
 class TrafficSimulatorTest {
 

@@ -8,7 +8,7 @@ import java.util.List;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
-import src.simulator.model.*;
+import simulator.model.*;
 
 class RoadMapTest {
 

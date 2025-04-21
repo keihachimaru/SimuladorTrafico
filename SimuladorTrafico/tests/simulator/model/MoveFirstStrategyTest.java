@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import simulator.misc.Utils;
-import src.simulator.model.*;
+import simulator.model.*;
 
 public class MoveFirstStrategyTest {
 

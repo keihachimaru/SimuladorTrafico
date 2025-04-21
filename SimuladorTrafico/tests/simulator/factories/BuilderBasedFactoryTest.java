@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.json.JSONObject;
 
-import src.simulator.model.*;
-import src.simulator.factories.*;
+import simulator.model.*;
+import simulator.factories.*;
 
 class BuilderBasedFactoryTest {
 

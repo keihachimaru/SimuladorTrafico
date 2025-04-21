@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
-import src.simulator.misc.Pair;
-import src.simulator.model.*;
+import simulator.misc.Pair;
+import simulator.model.*;
 
 class SetWeatherEventTest {
 
